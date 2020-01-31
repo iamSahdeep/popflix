@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:popflix/CORE/ProviderModels/UIUpdatesPM.dart';
 import 'package:popflix/UI/Screens/HomeScreen.dart';
+import 'package:popflix/UI/Screens/MovieDetailsScreen.dart';
 import 'package:popflix/UI/Screens/SplashScreen.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           SplashScreen.Route: (context) => SplashScreen(),
-          HomeScreen.Route: (context) => HomeScreen()
+          HomeScreen.Route: (context) => HomeScreen(),
         },
         home: HomeScreen(),
       ),

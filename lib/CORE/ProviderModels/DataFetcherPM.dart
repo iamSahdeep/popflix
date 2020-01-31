@@ -52,4 +52,20 @@ class DataFetcherPM extends ChangeNotifier {
   String getRandomYoutubeLink() {
     return allMovies[Random().nextInt(10)].trailer;
   }
+
+  dynamic getRandomItem() {
+    return allMovies[Random().nextInt(10)];
+  }
+
+  List<Movie> getMoviesWithSameGenres(Movie movie) {
+    print("check");
+    List<Movie> temp = allMovies;
+    return temp.where((m){
+      if (m.genres.any((item) => movie.genres.contains(item))) {
+        return true;
+      } else {
+        return false;
+      }
+    }).toList();
+  }
 }

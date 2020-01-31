@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 4,

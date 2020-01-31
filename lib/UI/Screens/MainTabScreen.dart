@@ -30,7 +30,7 @@ class _MainScreenTabState extends State<MainScreenTab> {
                   BingeWorthTVShows(),
                   PopularMovies(),
                   AnimesWorthWatch(),
-                  TrailerView()
+                  TrailerView(),
                 ],
               )
             : CircularProgressIndicator(),

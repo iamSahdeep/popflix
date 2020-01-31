@@ -6,41 +6,148 @@ import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class TrailerView extends StatelessWidget {
-  final String youtubeId;
+class TrailerView extends StatefulWidget {
+  final itemt;
 
-  const TrailerView({Key key, this.youtubeId}) : super(key: key);
+  const TrailerView({Key key, this.itemt}) : super(key: key);
+
+  @override
+  _TrailerViewState createState() => _TrailerViewState();
+}
+
+class _TrailerViewState extends State<TrailerView> {
+  bool ismute = true;
 
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<DataFetcherPM>(context);
     String id;
-    if (youtubeId == null) {
-      id = Utils.convertUrlToId(model.getRandomYoutubeLink());
-    } else
-      id = youtubeId;
+    var item;
+    if (widget.itemt == null) {
+      item = model.getRandomItem();
+      id = Utils.convertUrlToId(item.trailer);
+    } else {
+      item = widget.itemt;
+      id = Utils.convertUrlToId(item.trailer);
+    }
 
     YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: id,
       flags: YoutubePlayerFlags(
         autoPlay: true,
-        mute: true,
+        mute: ismute,
       ),
     );
 
     return Container(
-      child: VisibilityDetector(
-        key: Key(id),
-        onVisibilityChanged: (VisibilityInfo info) {
-          if(info.visibleFraction  > 0){
-            _controller.play();
-          }else _controller.pause();
-        },
-        child: YoutubePlayer(
-          controller: _controller,
-          showVideoProgressIndicator: false,
-          bottomActions: <Widget>[],
-        ),
+      margin: EdgeInsets.only(top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+            child: Text(
+              item.title,
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          VisibilityDetector(
+            key: Key(id),
+            onVisibilityChanged: (VisibilityInfo info) {
+              if (info.visibleFraction > 0) {
+                _controller.play();
+              } else
+                _controller.pause();
+            },
+            child: Stack(
+              children: <Widget>[
+                YoutubePlayer(
+                  controller: _controller,
+                  showVideoProgressIndicator: false,
+                  bottomActions: <Widget>[],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Text(
+                        item.certification.toString().split(".").last,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                /* Positioned(
+                  bottom: 1,
+                  right: 1,
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        if (ismute) {
+                          _controller.unMute();
+                          ismute = false;
+                        } else {
+                          _controller.mute();
+                          ismute = true;
+                        }
+                      });
+                    },
+                    icon: Icon(
+                      ismute ? Icons.volume_off : Icons.volume_up,
+                      color: Colors.white,
+                    ),
+                  ),
+                )*/
+              ],
+            ),
+          ),
+          widget.itemt == null
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    RaisedButton(
+                      onPressed: null,
+                      disabledColor: Colors.white,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.play_arrow,
+                            color: Colors.black,
+                          ),
+                          Text(
+                            "Play",
+                            style: TextStyle(color: Colors.black),
+                          )
+                        ],
+                      ),
+                    ),
+                    RaisedButton(
+                      onPressed: null,
+                      disabledColor: Colors.grey,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "My List",
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              : SizedBox()
+        ],
       ),
     );
   }
