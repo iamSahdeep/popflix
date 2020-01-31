@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       length: 4,
       child: Scaffold(
         backgroundColor: Colors.black,
+        resizeToAvoidBottomInset: false,
         bottomNavigationBar: TabBar(
           indicatorColor: Colors.transparent,
           labelStyle: TextStyle(fontSize: 12),

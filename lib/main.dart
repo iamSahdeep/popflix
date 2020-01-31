@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:popflix/CORE/ProviderModels/UIUpdatesPM.dart';
 import 'package:popflix/UI/Screens/HomeScreen.dart';
-import 'package:popflix/UI/Screens/MovieDetailsScreen.dart';
 import 'package:popflix/UI/Screens/SplashScreen.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +13,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<UIUpdatePM>(create: (_) => UIUpdatePM()),
         ChangeNotifierProvider<DataFetcherPM>(create: (_) => DataFetcherPM()),
+        ChangeNotifierProxyProvider<DataFetcherPM, UIUpdatePM>(
+            create: (_) => UIUpdatePM(),
+            update: (_, foo, bar) {
+              bar.allMovies = foo.allMovies;
+              bar.allShows = foo.allShows;
+              return bar;
+            }),
       ],
       child: MaterialApp(
         theme: ThemeData(

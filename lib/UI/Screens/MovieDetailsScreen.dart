@@ -253,6 +253,5 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

@@ -34,7 +34,8 @@ class _MovieItemCardState extends State<MovieItemCard> {
               imageUrl: widget.item.images.banner,
               fit: BoxFit.fitHeight,
               placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              errorWidget: (context, url, error) =>
+                  Icon(Icons.error, color: Colors.white,),
             ),
             widget.item is Anime
                 ? Align(
