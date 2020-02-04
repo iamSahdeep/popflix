@@ -31,21 +31,24 @@ class DataFetcherPM extends ChangeNotifier {
   getAllAnimes() async {
     Repository.fetchAllAnimes(showsPagingPage).then((response) {
       allAnimes.addAll(animeFromJson(response.body.toString()));
-      allAnimes.forEach((anime){
-        anime.images.banner = "https://media.kitsu.io/anime/poster_images/${anime.id.toString()}/original.jpg";
+      allAnimes.forEach((anime) {
+        anime.images.banner =
+        "https://media.kitsu.io/anime/poster_images/${anime.id
+            .toString()}/original.jpg";
       });
       notifyListeners();
     });
   }
 
-  List<Movie> getBingeWorthMovies(){
+  List<Movie> getBingeWorthMovies() {
     return allMovies.getRange(0, 15).toList();
   }
 
-  List<Show> getBingeWorthTVShows(){
+  List<Show> getBingeWorthTVShows() {
     return allShows.getRange(0, 15).toList();
   }
-  List<Anime> getBingeWorthAnimes(){
+
+  List<Anime> getBingeWorthAnimes() {
     return allAnimes.getRange(0, 15).toList();
   }
 
@@ -58,14 +61,22 @@ class DataFetcherPM extends ChangeNotifier {
   }
 
   List<Movie> getMoviesWithSameGenres(Movie movie) {
-    print("check");
     List<Movie> temp = allMovies;
-    return temp.where((m){
+    return temp.where((m) {
       if (m.genres.any((item) => movie.genres.contains(item))) {
         return true;
       } else {
         return false;
       }
     }).toList();
+  }
+
+  List<Show> getShowsWithSameGenres(Show show) {
+    List<Show> temp = allShows;
+    int pos = temp.indexOf(show);
+    if (pos < 35)
+      return temp.getRange(pos + 1, pos + 13).toList();
+    else
+      return temp;
   }
 }

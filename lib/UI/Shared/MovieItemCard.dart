@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetAnimesRM.dart';
+import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart';
 import 'package:popflix/UI/Screens/MovieDetailsScreen.dart';
+import 'package:popflix/UI/Screens/ShowDetailsScreen.dart';
 
 class MovieItemCard extends StatefulWidget {
   final item;
@@ -19,15 +21,17 @@ class _MovieItemCardState extends State<MovieItemCard> {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) =>
-                MovieDetailsScreen(movie: widget.item))
-        );
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return widget.item is Movie
+              ? MovieDetailsScreen(movie: widget.item)
+              : ShowDetailsScreen(
+            show: widget.item,
+          );
+        }));
       },
       child: SizedBox(
         height: size.height / 5,
-        width: size.width / 3.5 ,
+        width: size.width / 3.5,
         child: Stack(
           children: <Widget>[
             CachedNetworkImage(
@@ -35,7 +39,10 @@ class _MovieItemCardState extends State<MovieItemCard> {
               fit: BoxFit.fitHeight,
               placeholder: (context, url) => CircularProgressIndicator(),
               errorWidget: (context, url, error) =>
-                  Icon(Icons.error, color: Colors.white,),
+                  Icon(
+                    Icons.error,
+                    color: Colors.white,
+                  ),
             ),
             widget.item is Anime
                 ? Align(
