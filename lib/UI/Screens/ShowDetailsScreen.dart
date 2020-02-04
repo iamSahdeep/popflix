@@ -257,7 +257,8 @@ class _ShowDetailsScreenState extends State<ShowDetailsScreen>
                               onPressed: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                      return SeasonsSelectScreen();
+                                      return SeasonsSelectScreen(
+                                        isAnime: false,);
                                     }));
                               },
                               child: Text(

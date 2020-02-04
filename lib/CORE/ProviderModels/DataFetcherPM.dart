@@ -79,4 +79,13 @@ class DataFetcherPM extends ChangeNotifier {
     else
       return temp;
   }
+
+  List<Anime> getAnimesWithSameGenres(Anime show) {
+    List<Anime> temp = allAnimes;
+    int pos = temp.indexOf(show);
+    if (pos < 35)
+      return temp.getRange(pos + 1, pos + 13).toList();
+    else
+      return temp;
+  }
 }

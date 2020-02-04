@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:popflix/CORE/ProviderModels/AnimeDetailsPM.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:popflix/CORE/ProviderModels/ShowDetailsPM.dart';
 import 'package:popflix/CORE/ProviderModels/UIUpdatesPM.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
               return bar;
             }),
         ChangeNotifierProvider<ShowDetailsPM>(create: (_) => ShowDetailsPM()),
+        ChangeNotifierProvider<AnimeDetailsPM>(create: (_) => AnimeDetailsPM()),
       ],
       child: MaterialApp(
         theme: ThemeData(

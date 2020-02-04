@@ -4,4 +4,5 @@ class Urls{
   static const Animes = "/animes";
   static const Shows = "/shows";
   static const ShowDetail = "/show";
+  static const AnimeDetail = "/anime";
 }

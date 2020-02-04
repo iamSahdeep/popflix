@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetAnimesRM.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart';
+import 'package:popflix/CORE/Models/ApiRM/GetShowsRM.dart';
+import 'package:popflix/UI/Screens/AnimeDetailsScreen.dart';
 import 'package:popflix/UI/Screens/MovieDetailsScreen.dart';
 import 'package:popflix/UI/Screens/ShowDetailsScreen.dart';
 
@@ -24,9 +26,9 @@ class _MovieItemCardState extends State<MovieItemCard> {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return widget.item is Movie
               ? MovieDetailsScreen(movie: widget.item)
-              : ShowDetailsScreen(
+              : widget.item is Show ? ShowDetailsScreen(
             show: widget.item,
-          );
+          ) : AnimeDetailsScreen(show: widget.item,);
         }));
       },
       child: SizedBox(

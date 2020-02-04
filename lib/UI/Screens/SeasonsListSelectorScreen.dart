@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:popflix/CORE/ProviderModels/AnimeDetailsPM.dart';
 import 'package:popflix/CORE/ProviderModels/ShowDetailsPM.dart';
 import 'package:provider/provider.dart';
 
 class SeasonsSelectScreen extends StatefulWidget {
+  final bool isAnime;
+
+  const SeasonsSelectScreen({Key key, this.isAnime}) : super(key: key);
+
   @override
   _SeasonsSelectScreenState createState() => _SeasonsSelectScreenState();
 }
@@ -13,6 +18,7 @@ class _SeasonsSelectScreenState extends State<SeasonsSelectScreen> {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<ShowDetailsPM>(context);
+    final modelA = Provider.of<AnimeDetailsPM>(context);
     final size = MediaQuery.of(context).size;
     return Material(
       color: Colors.transparent,
@@ -30,11 +36,15 @@ class _SeasonsSelectScreenState extends State<SeasonsSelectScreen> {
               child: Center(
                 child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: model.singleShowDetail.numSeasons,
+                    itemCount: widget.isAnime
+                        ? modelA.singleAnimeDetail.numSeasons
+                        : model.singleShowDetail.numSeasons,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          model.changeCurrentSeasonDisplay(index + 1);
+                          widget.isAnime
+                              ? modelA.changeCurrentSeasonDisplay(index + 1)
+                              : model.changeCurrentSeasonDisplay(index + 1);
                           Navigator.pop(context);
                         },
                         child: Padding(

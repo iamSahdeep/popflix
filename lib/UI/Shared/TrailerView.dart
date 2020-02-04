@@ -17,14 +17,20 @@ class TrailerView extends StatefulWidget {
 
 class _TrailerViewState extends State<TrailerView> {
   bool ismute = true;
+  var temp;
+
+  @override
+  void initState() {
+    temp = Provider.of<DataFetcherPM>(context, listen: false).getRandomItem();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<DataFetcherPM>(context);
     String id;
     var item;
     if (widget.itemt == null) {
-      item = model.getRandomItem();
+      item = temp;
       id = Utils.convertUrlToId(item.trailer);
     } else {
       item = widget.itemt;

@@ -20,5 +20,9 @@ class Repository {
     return await apiProvider.getShowDetails(imdbId);
   }
 
+  static Future<Response> fetchAnimeDetails(String id) async {
+    return await apiProvider.getAnimeDetails(id);
+  }
+
 
 }

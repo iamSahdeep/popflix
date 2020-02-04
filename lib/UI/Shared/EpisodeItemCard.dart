@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:popflix/CORE/Models/ApiRM/GetShowDetailsRM.dart';
 
 class EpisodeItemCard extends StatefulWidget {
   final item;
@@ -16,7 +15,7 @@ class EpisodeItemCard extends StatefulWidget {
 class _EpisodeItemCardState extends State<EpisodeItemCard> {
   @override
   Widget build(BuildContext context) {
-    final Episode item = widget.item;
+    final item = widget.item;
     return Padding(
       padding: const EdgeInsets.only(top: 28.0),
       child: Column(
@@ -81,7 +80,10 @@ class _EpisodeItemCardState extends State<EpisodeItemCard> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              item.overview,
+              item.overview
+                  .toString()
+                  .split(".")
+                  .last,
               maxLines: 3,
               style: TextStyle(color: Colors.white70, fontSize: 11),
             ),
