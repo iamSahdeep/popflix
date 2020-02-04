@@ -13,7 +13,7 @@ class SearchTabScreen extends StatefulWidget {
 class _SearchTabScreenState extends State<SearchTabScreen> {
   @override
   void didChangeDependencies() {
-    Provider.of<UIUpdatePM>(context).randomPopularSearches();
+    Provider.of<UIUpdatePM>(context, listen: false).randomPopularSearches();
     super.didChangeDependencies();
   }
 

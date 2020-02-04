@@ -13,4 +13,8 @@ class ApiProvider {
   Future<http.Response> getAllAnimes(int page) async {
     return await http.get(Urls.BaseUrl + Urls.Animes + "/${page.toString()}");
   }
+
+  Future<http.Response> getShowDetails(String imdbId) async {
+    return await http.get(Urls.BaseUrl + Urls.ShowDetail + "/$imdbId");
+  }
 }
