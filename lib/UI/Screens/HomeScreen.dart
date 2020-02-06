@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
+import 'package:popflix/CORE/ProviderModels/NetworkHandlerPM.dart';
 import 'package:popflix/UI/Screens/MainTabScreen.dart';
 import 'package:popflix/UI/Screens/MoreTabScreen.dart';
 import 'package:popflix/UI/Screens/SearchTabScreen.dart';
 import 'package:popflix/UI/Screens/TrailersTabScreen.dart';
 import 'package:provider/provider.dart';
+
+import 'NoInternetScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const Route = "/homescreen";
@@ -30,7 +33,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   Widget build(BuildContext context) {
     super.build(context);
     final size = MediaQuery.of(context).size;
-    return DefaultTabController(
+    final networkModel = Provider.of<NetworkHandlerPM>(context);
+    return networkModel.isConnected ? DefaultTabController(
       length: 4,
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -86,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
               ]),
         ),
       ),
-    );
+    ) : NoInternetScreen();
   }
 
   @override
