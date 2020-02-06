@@ -4,6 +4,7 @@ import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:popflix/UI/Shared/AnimeWorthWatch.dart';
 import 'package:popflix/UI/Shared/BingeWorthyTVShows.dart';
 import 'package:popflix/UI/Shared/PopularMovies.dart';
+import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 import 'package:popflix/UI/Shared/SingleFirstPosterFeaturedItem.dart';
 import 'package:popflix/UI/Shared/TrailerView.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,9 @@ class _MainScreenTabState extends State<MainScreenTab> {
   @override
   Widget build(BuildContext context) {
     final hsModel = Provider.of<DataFetcherPM>(context);
+    final size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
@@ -33,7 +37,10 @@ class _MainScreenTabState extends State<MainScreenTab> {
                   TrailerView(),
                 ],
               )
-            : CircularProgressIndicator(),
+            : ShimmerBox(
+          width: size.width,
+          height: size.height,
+        ),
       ),
     );
   }

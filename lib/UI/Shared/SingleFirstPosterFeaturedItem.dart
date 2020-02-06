@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart';
+import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 
 class SingleFirstPosterFeaturedItem extends StatefulWidget {
   final Movie item;
@@ -25,8 +26,13 @@ class _SingleFirstPosterFeaturedItemState
           height: size.height / 2 + 60,
           width: size.width,
           fit: BoxFit.cover,
-          placeholder: (context, url) => CircularProgressIndicator(),
-          errorWidget: (context, url, error) => Icon(Icons.error),
+          placeholder: (context, url) =>
+              ShimmerBox(
+                width: size.width,
+                height: size.height / 2 + 60,
+              ),
+          errorWidget: (context, url, error) =>
+              Center(child: Icon(Icons.error)),
         ),
         Container(
           color: Colors.black.withOpacity(.7),
@@ -43,7 +49,11 @@ class _SingleFirstPosterFeaturedItemState
                 height: size.height / 2,
                 width: size.width,
                 fit: BoxFit.scaleDown,
-                placeholder: (context, url) => CircularProgressIndicator(),
+                placeholder: (context, url) =>
+                    ShimmerBox(
+                      width: size.width,
+                      height: size.height / 2,
+                    ),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),

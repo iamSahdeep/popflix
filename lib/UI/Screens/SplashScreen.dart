@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popflix/UI/Screens/HomeScreen.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SplashScreen extends StatefulWidget {
   static const Route = "/splashscreen";
@@ -33,9 +34,13 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.black54,
       body: Center(
-        child: Text(
-          "PopFlix",
-          style: TextStyle(color: Colors.white, fontSize: 40),
+        child: Shimmer.fromColors(
+          highlightColor: Colors.redAccent,
+          baseColor: Colors.red,
+          child: Text(
+            "PopFlix",
+            style: TextStyle(color: Colors.red, fontSize: 40),
+          ),
         ),
       ),
     );

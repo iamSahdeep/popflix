@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 
 class PopularSearchItem extends StatelessWidget {
   final item;
@@ -21,7 +22,11 @@ class PopularSearchItem extends StatelessWidget {
           CachedNetworkImage(
             imageUrl: item.images.fanart,
             fit: BoxFit.scaleDown,
-            placeholder: (context, url) => CircularProgressIndicator(),
+            placeholder: (context, url) =>
+                ShimmerBox(
+                  width: 60,
+                  height: 60,
+                ),
             errorWidget: (context, url, error) => Icon(
               Icons.error,
               color: Colors.white,

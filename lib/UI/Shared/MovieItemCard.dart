@@ -7,6 +7,7 @@ import 'package:popflix/CORE/Models/ApiRM/GetShowsRM.dart';
 import 'package:popflix/UI/Screens/AnimeDetailsScreen.dart';
 import 'package:popflix/UI/Screens/MovieDetailsScreen.dart';
 import 'package:popflix/UI/Screens/ShowDetailsScreen.dart';
+import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 
 class MovieItemCard extends StatefulWidget {
   final item;
@@ -39,7 +40,11 @@ class _MovieItemCardState extends State<MovieItemCard> {
             CachedNetworkImage(
               imageUrl: widget.item.images.banner,
               fit: BoxFit.fitHeight,
-              placeholder: (context, url) => CircularProgressIndicator(),
+              placeholder: (context, url) =>
+                  ShimmerBox(
+                    width: size.height / 5,
+                    height: size.width / 3.5,
+                  ),
               errorWidget: (context, url, error) =>
                   Icon(
                     Icons.error,

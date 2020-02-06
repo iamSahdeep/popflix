@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'ShimmerEffectBox.dart';
+
 class EpisodeItemCard extends StatefulWidget {
   final item;
   final String image;
@@ -32,7 +34,11 @@ class _EpisodeItemCardState extends State<EpisodeItemCard> {
                 CachedNetworkImage(
                   imageUrl: widget.image,
                   fit: BoxFit.scaleDown,
-                  placeholder: (context, url) => CircularProgressIndicator(),
+                  placeholder: (context, url) =>
+                      ShimmerBox(
+                        width: 70,
+                        height: 70,
+                      ),
                   errorWidget: (context, url, error) => Icon(
                     Icons.error,
                     color: Colors.white,

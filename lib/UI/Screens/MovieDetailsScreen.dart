@@ -5,6 +5,7 @@ import 'package:popflix/CORE/Helpers/Utils.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:popflix/UI/Shared/MovieItemCard.dart';
+import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 import 'package:popflix/UI/Shared/TrailerView.dart';
 import 'package:provider/provider.dart' as pro;
 
@@ -45,7 +46,11 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                   child: CachedNetworkImage(
                     imageUrl: widget.movie.images.fanart,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => CircularProgressIndicator(),
+                    placeholder: (context, url) =>
+                        ShimmerBox(
+                          height: size.height / 3,
+                          width: size.width,
+                        ),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),

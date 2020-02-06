@@ -29,6 +29,8 @@ dependencies:
   cached_network_image:
   flutter_widgets:
   youtube_player_flutter:
+  shimmer:
+  connectivity:
 
 dev_dependencies:
   flutter_test:

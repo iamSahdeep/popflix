@@ -7,6 +7,7 @@ import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:popflix/UI/Screens/SeasonsListSelectorScreen.dart';
 import 'package:popflix/UI/Shared/EpisodeItemCard.dart';
 import 'package:popflix/UI/Shared/MovieItemCard.dart';
+import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 import 'package:provider/provider.dart';
 
 class AnimeDetailsScreen extends StatefulWidget {
@@ -59,7 +60,10 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen>
                           imageUrl: widget.show.images.banner,
                           fit: BoxFit.cover,
                           placeholder: (context, url) =>
-                              CircularProgressIndicator(),
+                              ShimmerBox(
+                                height: size.height / 3,
+                                width: size.width,
+                              ),
                           errorWidget: (context, url, error) =>
                               Icon(Icons.error),
                         ),
@@ -307,8 +311,9 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen>
                 ],
               ),
             )
-          : Center(
-              child: CircularProgressIndicator(),
+          : ShimmerBox(
+        width: size.width,
+        height: size.height,
             ),
     );
   }
