@@ -31,6 +31,7 @@ dependencies:
   youtube_player_flutter:
   shimmer:
   connectivity:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

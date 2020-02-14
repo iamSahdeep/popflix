@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:popflix/CORE/Helpers/Utils.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
+import 'package:popflix/UI/Screens/WatchScreen.dart';
 import 'package:popflix/UI/Shared/MovieItemCard.dart';
 import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 import 'package:popflix/UI/Shared/TrailerView.dart';
@@ -25,7 +26,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
     final model = pro.Provider.of<DataFetcherPM>(context);
     return Scaffold(
       backgroundColor: Colors.black,
@@ -39,10 +42,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                   width: size.width,
                   foregroundDecoration: BoxDecoration(
                       gradient: LinearGradient(
-                    colors: [Colors.black45, Colors.black87],
-                    begin: FractionalOffset.topCenter,
-                    end: FractionalOffset.bottomCenter,
-                  )),
+                        colors: [Colors.black45, Colors.black87],
+                        begin: FractionalOffset.topCenter,
+                        end: FractionalOffset.bottomCenter,
+                      )),
                   child: CachedNetworkImage(
                     imageUrl: widget.movie.images.fanart,
                     fit: BoxFit.cover,
@@ -57,10 +60,18 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                 Positioned(
                   left: size.width / 2 - 35,
                   top: size.height / 6 - 35,
-                  child: Icon(
-                    Icons.play_circle_outline,
-                    size: 70,
-                    color: Colors.white,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) {
+                        return TorrentStreamerView(item: widget.movie);
+                      }));
+                    },
+                    icon: Icon(
+                      Icons.play_circle_outline,
+                      size: 70,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 Positioned(
@@ -99,7 +110,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                   ),
                 ),
                 Text(
-                  widget.movie.certification.toString().split(".").last,
+                  widget.movie.certification
+                      .toString()
+                      .split(".")
+                      .last,
                   style: TextStyle(
                       color: Colors.white54,
                       fontWeight: FontWeight.bold,
@@ -212,7 +226,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                         insets: EdgeInsets.only(left: 8, right: 8, bottom: 50)),
                     isScrollable: true,
                     labelPadding:
-                        EdgeInsets.only(left: 0, right: 0, bottom: 10, top: 10),
+                    EdgeInsets.only(left: 0, right: 0, bottom: 10, top: 10),
                     tabs: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
