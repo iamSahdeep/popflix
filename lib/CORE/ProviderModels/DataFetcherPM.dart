@@ -14,6 +14,8 @@ class DataFetcherPM extends ChangeNotifier {
   List<Anime> allAnimes = [];
   int animesPagingPage = 1;
 
+  List<Movie> recentReleases = [];
+
   getAllMovies() async {
     Repository.fetchAllMovies(moviesPagingPage).then((response) {
       allMovies.addAll(movieFromJson(response.body.toString()));
@@ -87,6 +89,14 @@ class DataFetcherPM extends ChangeNotifier {
       return temp.getRange(pos + 1, pos + 13).toList();
     else
       return temp;
+  }
+
+  List<Movie> getPopularGenre(String name) {
+    print(allMovies.length.toString());
+    return allMovies.toSet()
+        .where((element) => element.genres.contains(name))
+        .toSet()
+        .toList();
   }
 
 }

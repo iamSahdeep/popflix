@@ -4,6 +4,7 @@ import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:popflix/UI/Shared/AnimeWorthWatch.dart';
 import 'package:popflix/UI/Shared/BingeWorthyTVShows.dart';
 import 'package:popflix/UI/Shared/PopularMovies.dart';
+import 'package:popflix/UI/Shared/PopularOnList.dart';
 import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 import 'package:popflix/UI/Shared/SingleFirstPosterFeaturedItem.dart';
 import 'package:popflix/UI/Shared/TrailerView.dart';
@@ -35,6 +36,13 @@ class _MainScreenTabState extends State<MainScreenTab> {
                   PopularMovies(),
                   AnimesWorthWatch(),
                   TrailerView(),
+                  PopularOnList(name: "action"),
+                  PopularOnList(
+                    name: "crime",
+                  ),
+                  PopularOnList(
+                    name: "family",
+                  )
                 ],
               )
             : ShimmerBox(
