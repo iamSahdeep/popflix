@@ -28,7 +28,6 @@ class CurrentPlayingVideoPM extends ChangeNotifier {
 
   Future<void> _startDownload(String link) async {
     print(link);
-    //await TorrentStreamer.start("http://torcache.net/torrent/A1D0C3B0FD52A29D2487027E6B50F27EAF4912C5.torrent");
     await TorrentStreamer.start(link);
   }
 

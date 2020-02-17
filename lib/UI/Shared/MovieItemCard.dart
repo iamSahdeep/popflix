@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:popflix/CORE/Helpers/Prefs.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetAnimesRM.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetShowsRM.dart';
@@ -11,8 +12,10 @@ import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 
 class MovieItemCard extends StatefulWidget {
   final item;
+  final bool showLeftTime;
 
-  const MovieItemCard({Key key, this.item}) : super(key: key);
+  const MovieItemCard({Key key, this.item, this.showLeftTime = false})
+      : super(key: key);
 
   @override
   _MovieItemCardState createState() => _MovieItemCardState();
@@ -27,9 +30,13 @@ class _MovieItemCardState extends State<MovieItemCard> {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return widget.item is Movie
               ? MovieDetailsScreen(movie: widget.item)
-              : widget.item is Show ? ShowDetailsScreen(
+              : widget.item is Show
+              ? ShowDetailsScreen(
             show: widget.item,
-          ) : AnimeDetailsScreen(show: widget.item,);
+          )
+              : AnimeDetailsScreen(
+            show: widget.item,
+          );
         }));
       },
       child: SizedBox(
@@ -67,6 +74,18 @@ class _MovieItemCardState extends State<MovieItemCard> {
                       ),
                     ),
                   )
+                : widget.item is Movie &&
+                Prefs.getMoviesContinueWatching()
+                    .contains(widget.item.imdbId) && widget.showLeftTime
+                ? Align(
+              alignment: Alignment.bottomLeft,
+              child: Container(
+                color: Colors.red,
+                height: 3,
+                width: (Prefs.getMovieLastPoint(widget.item.imdbId) / 100) *
+                    size.width / 3.5,
+              ),
+            )
                 : SizedBox()
           ],
         ),
