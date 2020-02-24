@@ -63,9 +63,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                   top: size.height / 6 - 35,
                   child: IconButton(
                     onPressed: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (context) {
-                        return TorrentStreamerView(item: widget.movie);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                            return TorrentStreamerView(
+                                item: widget.movie.torrents.en["720p"].url);
                       }));
                     },
                     icon: Icon(

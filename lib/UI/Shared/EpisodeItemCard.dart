@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:popflix/UI/Screens/WatchScreen.dart';
 
 import 'ShimmerEffectBox.dart';
 
@@ -20,81 +21,96 @@ class _EpisodeItemCardState extends State<EpisodeItemCard> {
     final item = widget.item;
     return Padding(
       padding: const EdgeInsets.only(top: 28.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            height: 70,
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                CachedNetworkImage(
-                  imageUrl: widget.image,
-                  fit: BoxFit.scaleDown,
-                  placeholder: (context, url) =>
-                      ShimmerBox(
-                        width: 70,
-                        height: 70,
-                      ),
-                  errorWidget: (context, url, error) => Icon(
-                    Icons.error,
-                    color: Colors.white,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) {
+                return TorrentStreamerView(
+                    item: widget.item.torrents["480p"].url);
+              }));
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              height: 70,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  CachedNetworkImage(
+                    imageUrl: widget.image,
+                    fit: BoxFit.scaleDown,
+                    placeholder: (context, url) =>
+                        ShimmerBox(
+                          width: 70,
+                          height: 70,
+                        ),
+                    errorWidget: (context, url, error) =>
+                        Icon(
+                          Icons.error,
+                          color: Colors.white,
+                        ),
                   ),
-                ),
-                Expanded(
-                    child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 13),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        item.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "E" +
-                            item.episode.toString() +
-                            "  S" +
-                            item.season.toString(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.white, fontSize: 13),
-                      ),
-                    ],
-                  ),
-                )),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Icon(
-                    Icons.play_arrow,
-                    color: Colors.white70,
-                    size: 30,
-                  ),
-                )
-              ],
+                  Expanded(
+                      child: Padding(
+                        padding:
+                        const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 13),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              item.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "E" +
+                                  item.episode.toString() +
+                                  "  S" +
+                                  item.season.toString(),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 13),
+                            ),
+                          ],
+                        ),
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Icon(
+                      Icons.play_arrow,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              item.overview
-                  .toString()
-                  .split(".")
-                  .last,
-              maxLines: 3,
-              style: TextStyle(color: Colors.white70, fontSize: 11),
-            ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                item.overview
+                    .toString()
+                    .split(".")
+                    .last,
+                maxLines: 3,
+                style: TextStyle(color: Colors.white70, fontSize: 11),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_torrent_streamer/flutter_torrent_streamer.dart';
 import 'package:popflix/CORE/Helpers/Utils.dart';
-import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart' as Movie;
 import 'package:popflix/CORE/ProviderModels/CurrentPlayingVideoPM.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +12,7 @@ class MySpacer extends StatelessWidget {
 }
 
 class TorrentStreamerView extends StatefulWidget {
-  final Movie.Movie item;
+  final String item;
 
   const TorrentStreamerView({Key key, this.item}) : super(key: key);
 
@@ -25,7 +24,7 @@ class _TorrentStreamerViewState extends State<TorrentStreamerView> {
   @override
   void initState() {
     Provider.of<CurrentPlayingVideoPM>(context, listen: false)
-        .init(widget.item.torrents.en['720p'].url);
+        .init(widget.item);
     super.initState();
   }
 
@@ -138,7 +137,9 @@ class _TorrentStreamerViewState extends State<TorrentStreamerView> {
                       child: Center(
                         child: !model.isStreamReady
                             ? Text(
-                                'Please Wait',
+                          model.isFetchingMeta
+                              ? 'Fetching MetaData'
+                              : 'Please Wait',
                                 style: TextStyle(color: Colors.white),
                               )
                             : Text('Play Video',
