@@ -45,7 +45,8 @@ class _MovieItemCardState extends State<MovieItemCard> {
         child: Stack(
           children: <Widget>[
             CachedNetworkImage(
-              imageUrl: widget.item.images.banner,
+              imageUrl: widget.item.images.banner ??
+                  "https://png.pngtree.com/png-clipart/20190515/original/pngtree-sunrise-in-space-png-image_3591477.jpg",
               fit: BoxFit.fitHeight,
               placeholder: (context, url) =>
                   ShimmerBox(

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:popflix/CORE/Helpers/Strings.dart';
 import 'package:popflix/CORE/Helpers/Utils.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
@@ -47,7 +48,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                         end: FractionalOffset.bottomCenter,
                       )),
                   child: CachedNetworkImage(
-                    imageUrl: widget.movie.images.fanart,
+                    imageUrl: widget.movie.images.fanart ?? Strings.tempUrl,
                     fit: BoxFit.cover,
                     placeholder: (context, url) =>
                         ShimmerBox(

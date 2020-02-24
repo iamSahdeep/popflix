@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:popflix/UI/Shared/AnimeWorthWatch.dart';
 import 'package:popflix/UI/Shared/BingeWorthyTVShows.dart';
+import 'package:popflix/UI/Shared/NewReleasesOf.dart';
 import 'package:popflix/UI/Shared/PopularMovies.dart';
 import 'package:popflix/UI/Shared/PopularOnList.dart';
 import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
@@ -26,9 +27,7 @@ class _MainScreenTabState extends State<MainScreenTab> {
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
-        child: hsModel.allMovies.isNotEmpty &&
-                hsModel.allShows.isNotEmpty &&
-                hsModel.allAnimes.isNotEmpty
+        child: hsModel.isDataFetched()
             ? Column(
                 children: <Widget>[
                   SingleFirstPosterFeaturedItem(item: hsModel.allMovies[0]),
@@ -42,6 +41,15 @@ class _MainScreenTabState extends State<MainScreenTab> {
                   ),
                   PopularOnList(
                     name: "family",
+                  ),
+                  NewReleaseListOf(
+                    name: "movies",
+                  ),
+                  NewReleaseListOf(
+                    name: "shows",
+                  ),
+                  NewReleaseListOf(
+                    name: "animes",
                   )
                 ],
               )

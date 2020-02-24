@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:popflix/CORE/ProviderModels/NetworkHandlerPM.dart';
 import 'package:popflix/UI/Screens/MainTabScreen.dart';
 import 'package:popflix/UI/Screens/MoreTabScreen.dart';
@@ -18,23 +17,15 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin{
-
-  @override
-  void didChangeDependencies() {
-    final holder = Provider.of<DataFetcherPM>(context, listen: false);
-    holder.getAllMovies();
-    holder.getAllAnimes();
-    holder.getAllShows();
-    super.didChangeDependencies();
-  }
-
+class _HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
     final size = MediaQuery.of(context).size;
     final networkModel = Provider.of<NetworkHandlerPM>(context);
-    return networkModel.isConnected ? DefaultTabController(
+    return networkModel.isConnected
+        ? DefaultTabController(
       length: 4,
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -90,7 +81,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
               ]),
         ),
       ),
-    ) : NoInternetScreen();
+    )
+        : NoInternetScreen();
   }
 
   @override

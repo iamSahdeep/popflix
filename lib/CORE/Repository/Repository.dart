@@ -24,5 +24,21 @@ class Repository {
     return await apiProvider.getAnimeDetails(id);
   }
 
+  static Future<Response> fetchPopularMoviesWithGenre(String name) async {
+    return await apiProvider.getPopularMoviesWithGenre(name);
+  }
+
+  static Future<Response> fetchNewMovies() async {
+    return await apiProvider.getNewMovies();
+  }
+
+  static Future<Response> fetchNewShows() async {
+    return await apiProvider.getNewShows();
+  }
+
+  static Future<Response> fetchNewAnimes() async {
+    return await apiProvider.getNewAnimes();
+  }
+
 
 }

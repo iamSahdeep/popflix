@@ -14,7 +14,40 @@ class DataFetcherPM extends ChangeNotifier {
   List<Anime> allAnimes = [];
   int animesPagingPage = 1;
 
-  List<Movie> recentReleases = [];
+  List<Movie> newMovies = [];
+  List<Show> newShows = [];
+  List<Anime> newAnimes = [];
+
+  List<Movie> popularActionMovies = [];
+  List<Movie> popularCrimeMovies = [];
+  List<Movie> popularFamilyMovies = [];
+
+  DataFetcherPM() {
+    getAllMovies();
+    getAllShows();
+    getAllAnimes();
+    getPopularGenreMovies("action");
+    getPopularGenreMovies("crime");
+    getPopularGenreMovies("family");
+    getNewMovies();
+    getNewAnimes();
+    getNewShows();
+  }
+
+  bool isDataFetched() {
+    if (allMovies.isEmpty ||
+        allAnimes.isEmpty ||
+        allShows.isEmpty ||
+        newMovies.isEmpty ||
+        newAnimes.isEmpty ||
+        newShows.isEmpty ||
+        popularFamilyMovies.isEmpty ||
+        popularCrimeMovies.isEmpty ||
+        popularActionMovies.isEmpty) {
+      return false;
+    } else
+      return true;
+  }
 
   getAllMovies() async {
     Repository.fetchAllMovies(moviesPagingPage).then((response) {
@@ -63,7 +96,11 @@ class DataFetcherPM extends ChangeNotifier {
   }
 
   List<Movie> getMoviesWithSameGenres(Movie movie) {
-    List<Movie> temp = allMovies;
+    List<Movie> temp = allMovies +
+        popularActionMovies +
+        popularFamilyMovies +
+        popularCrimeMovies +
+        newMovies;
     return temp.where((m) {
       if (m.genres.any((item) => movie.genres.contains(item))) {
         return true;
@@ -91,12 +128,42 @@ class DataFetcherPM extends ChangeNotifier {
       return temp;
   }
 
-  List<Movie> getPopularGenre(String name) {
-    print(allMovies.length.toString());
-    return allMovies.toSet()
-        .where((element) => element.genres.contains(name))
-        .toSet()
-        .toList();
+  getPopularGenreMovies(String name) {
+    Repository.fetchPopularMoviesWithGenre(name).then((response) {
+      if (name == "action")
+        popularActionMovies.addAll(movieFromJson(response.body.toString()));
+      else if (name == "crime") {
+        popularCrimeMovies.addAll(movieFromJson(response.body.toString()));
+      } else {
+        popularFamilyMovies.addAll(movieFromJson(response.body.toString()));
+      }
+      notifyListeners();
+    });
   }
 
+  void getNewMovies() {
+    Repository.fetchNewMovies().then((response) {
+      newMovies.addAll(movieFromJson(response.body.toString()));
+      notifyListeners();
+    });
+  }
+
+  void getNewAnimes() {
+    Repository.fetchNewAnimes().then((response) {
+      newAnimes.addAll(animeFromJson(response.body.toString()));
+      newAnimes.forEach((anime) {
+        anime.images.banner =
+        "https://media.kitsu.io/anime/poster_images/${anime.id
+            .toString()}/original.jpg";
+      });
+      notifyListeners();
+    });
+  }
+
+  void getNewShows() {
+    Repository.fetchNewShows().then((response) {
+      newShows.addAll(showFromJson(response.body.toString()));
+      notifyListeners();
+    });
+  }
 }

@@ -1,37 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart' as m;
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:provider/provider.dart';
 
 import 'MovieItemCard.dart';
 
-//ForMoviesOnly
-class PopularOnList extends StatefulWidget {
+class NewReleaseListOf extends StatefulWidget {
   final String name;
 
-  const PopularOnList({Key key, this.name}) : super(key: key);
+  const NewReleaseListOf({Key key, this.name}) : super(key: key);
 
   @override
-  _PopularOnListState createState() => _PopularOnListState();
+  _NewReleaseListOfState createState() => _NewReleaseListOfState();
 }
 
-class _PopularOnListState extends State<PopularOnList> {
+class _NewReleaseListOfState extends State<NewReleaseListOf> {
   @override
   Widget build(BuildContext context) {
-    List<m.Movie> data;
-    if (widget.name == "action")
-      data = Provider
-          .of<DataFetcherPM>(context)
-          .popularActionMovies;
-    else if (widget.name == "crime") {
-      data = Provider
-          .of<DataFetcherPM>(context)
-          .popularCrimeMovies;
+    List<dynamic> data;
+    if (widget.name == "movies")
+      data = Provider.of<DataFetcherPM>(context).newMovies;
+    else if (widget.name == "shows") {
+      data = Provider.of<DataFetcherPM>(context).newShows;
     } else {
-      data = Provider
-          .of<DataFetcherPM>(context)
-          .popularFamilyMovies;
+      data = Provider.of<DataFetcherPM>(context).newAnimes;
     }
 
     return Container(
@@ -42,7 +34,7 @@ class _PopularOnListState extends State<PopularOnList> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Text(
-              "Popular in Genre : ${widget.name}",
+              "New ${widget.name}",
               style: TextStyle(
                   fontSize: 16,
                   color: Colors.white,
