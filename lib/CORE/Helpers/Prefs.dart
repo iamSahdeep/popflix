@@ -9,7 +9,6 @@ class Prefs {
   static const MYWATCHLISTMovies = "mywatchlistMovies";
   static const MYLIKEDMOVIES = "myLikedmovies";
   static const CONTINUEWATCHINGShowsLISTKEY = "ContinueWatchingShowsList";
-  static const MYWATCHLISTShows = "mywatchlistShows";
   static const MYLIKEDShows = "myLikedshows";
   static const COMPLETEWATCHEDMOVIES = "completlyWatchedMovies";
   static const COMPLETEWATCHEDSHOWS = "completlyWatchedShows";
@@ -88,6 +87,14 @@ class Prefs {
 
   static List<String> addToRatedMovies(List<String> data) {
     prefs.setStringList(RATEDMOVIES, data);
+  }
+
+  static List<String> getMyListMovies() {
+    return prefs.getStringList(MYWATCHLISTMovies) ?? [];
+  }
+
+  static List<String> addToMyListMovies(List<String> data) {
+    prefs.setStringList(MYWATCHLISTMovies, data);
   }
 
 }

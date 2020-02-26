@@ -10,6 +10,7 @@ import 'package:popflix/UI/Shared/EpisodeItemCard.dart';
 import 'package:popflix/UI/Shared/MovieItemCard.dart';
 import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 class ShowDetailsScreen extends StatefulWidget {
   static const Route = "/showdetailsscreen";
@@ -25,10 +26,12 @@ class ShowDetailsScreen extends StatefulWidget {
 class _ShowDetailsScreenState extends State<ShowDetailsScreen>
     with AutomaticKeepAliveClientMixin<ShowDetailsScreen> {
   bool isRated = false;
+  bool isInMyList = false;
 
   @override
   void initState() {
     isRated = PrefsHelper.isMovieRatedByRobot(widget.show.imdbId);
+    isInMyList = PrefsHelper.isMovieInMyList(widget.show.imdbId);
 
     Provider.of<ShowDetailsPM>(context, listen: false)
         .getShowDetails(widget.show.imdbId);
@@ -169,21 +172,41 @@ class _ShowDetailsScreenState extends State<ShowDetailsScreen>
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Icon(
-                            Icons.add,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          Text(
-                            "My List",
-                            style: TextStyle(
-                                color: Colors.white70, fontSize: 10),
-                          )
-                        ],
+                      FlatButton(
+                        onPressed: () {
+                          setState(() {
+                            if (isInMyList) {
+                              PrefsHelper.removeMoveFromMyWatchList(
+                                  widget.show.imdbId);
+                              isInMyList = false;
+                            } else {
+                              PrefsHelper.addMovieToMyWatchList(
+                                  widget.show.imdbId);
+                              isInMyList = true;
+                            }
+                          });
+                        },
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(
+                              isInMyList ? Icons.check : Icons.add,
+                              color:
+                              isInMyList ? Colors.red : Colors.white,
+                              size: 30,
+                            ),
+                            Text(
+                              "My List",
+                              style: TextStyle(
+                                  color: isInMyList
+                                      ? Colors.red
+                                      : Colors.white70,
+                                  fontSize: 10),
+                            )
+                          ],
+                        ),
                       ),
                       FlatButton(
                         onPressed: () {
@@ -220,21 +243,34 @@ class _ShowDetailsScreenState extends State<ShowDetailsScreen>
                           ],
                         ),
                       ),
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Icon(
-                            Icons.share,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          Text(
-                            "Share",
-                            style: TextStyle(
-                                color: Colors.white70, fontSize: 10),
-                          )
-                        ],
+                      FlatButton(
+                        onPressed: () {
+                          Share.share(
+                              "Check out this amazing App, I am watching" +
+                                  widget.show.title +
+                                  "on it.\n\n" +
+                                  modelS.singleShowDetail.synopsis
+                                      .toString() +
+                                  " \n\n\nDownload it from https://github.com/iamSahdeeo/popflix",
+                              subject: "Share Details Via");
+                        },
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(
+                              Icons.share,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                            Text(
+                              "Share",
+                              style: TextStyle(
+                                  color: Colors.white70, fontSize: 10),
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   ),

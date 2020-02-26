@@ -10,6 +10,7 @@ import 'package:popflix/UI/Shared/EpisodeItemCard.dart';
 import 'package:popflix/UI/Shared/MovieItemCard.dart';
 import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 class AnimeDetailsScreen extends StatefulWidget {
   static const Route = "/Animedetailsscreen";
@@ -25,6 +26,7 @@ class AnimeDetailsScreen extends StatefulWidget {
 class _AnimeDetailsScreenState extends State<AnimeDetailsScreen>
     with AutomaticKeepAliveClientMixin<AnimeDetailsScreen> {
   bool isRated = false;
+  bool isInMyList = false;
 
   @override
   void initState() {
@@ -32,6 +34,8 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen>
         .getShowDetails(widget.show.id);
 
     isRated = PrefsHelper.isMovieRatedByRobot(widget.show.id);
+    isInMyList = PrefsHelper.isMovieInMyList(widget.show.id);
+
 
     super.initState();
   }
@@ -166,21 +170,38 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen>
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        Text(
-                          "My List",
-                          style: TextStyle(
-                              color: Colors.white70, fontSize: 10),
-                        )
-                      ],
+                    FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          if (isInMyList) {
+                            PrefsHelper.removeMoveFromMyWatchList(
+                                widget.show.id);
+                            isInMyList = false;
+                          } else {
+                            PrefsHelper.addMovieToMyWatchList(
+                                widget.show.id);
+                            isInMyList = true;
+                          }
+                        });
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Icon(
+                            isInMyList ? Icons.check : Icons.add,
+
+                            color: isInMyList ? Colors.red : Colors.white,
+                            size: 30,
+                          ),
+                          Text(
+                            "My List",
+                            style: TextStyle(
+                                color: isInMyList ? Colors.red : Colors.white70,
+                                fontSize: 10),
+                          )
+                        ],
+                      ),
                     ),
                     FlatButton(
                       onPressed: () {
@@ -216,7 +237,16 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen>
                       ),
                     ),
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Share.share(
+                            "Check out this amazing App, I am watching" +
+                                widget.show.title +
+                                "on it.\n\n" +
+                                modelS.singleAnimeDetail.synopsis
+                                    .toString() +
+                                " \n\n\nDownload it from https://github.com/iamSahdeeo/popflix",
+                            subject: "Share Details Via");
+                      },
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -291,7 +321,8 @@ class _AnimeDetailsScreenState extends State<AnimeDetailsScreen>
                                     }));
                               },
                               child: Text(
-                                "Season ${modelS.currentSeasonToDisplay.toString()} ",
+                                "Season ${modelS.currentSeasonToDisplay
+                                    .toString()} ",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
