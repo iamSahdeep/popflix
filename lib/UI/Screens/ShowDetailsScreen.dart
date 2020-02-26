@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:popflix/CORE/Helpers/PrefsHelper.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetShowsRM.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
 import 'package:popflix/CORE/ProviderModels/ShowDetailsPM.dart';
@@ -23,8 +24,12 @@ class ShowDetailsScreen extends StatefulWidget {
 
 class _ShowDetailsScreenState extends State<ShowDetailsScreen>
     with AutomaticKeepAliveClientMixin<ShowDetailsScreen> {
+  bool isRated = false;
+
   @override
   void initState() {
+    isRated = PrefsHelper.isMovieRatedByRobot(widget.show.imdbId);
+
     Provider.of<ShowDetailsPM>(context, listen: false)
         .getShowDetails(widget.show.imdbId);
 
@@ -69,21 +74,17 @@ class _ShowDetailsScreenState extends State<ShowDetailsScreen>
                     ),
                   ),
                   Positioned(
-                    left: size.width / 2 - 35,
-                    top: size.height / 6 - 35,
-                    child: Icon(
-                      Icons.play_circle_outline,
-                      size: 70,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Positioned(
                     left: 20,
                     top: 40,
-                    child: Icon(
-                      Icons.arrow_back,
-                      size: 25,
-                      color: Colors.white,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        size: 25,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   Positioned(
@@ -100,46 +101,52 @@ class _ShowDetailsScreenState extends State<ShowDetailsScreen>
                   ),
                 ],
               ),
-              Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Text(
-                      show.year.toString(),
+              Padding(
+                padding: const EdgeInsets.only(top: 18.0),
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text(
+                        show.year.toString(),
+                        style: TextStyle(
+                            color: Colors.white54,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12),
+                      ),
+                    ),
+                    Text(
+                      show.rating.percentage.toString() + "% liked",
                       style: TextStyle(
                           color: Colors.white54,
                           fontWeight: FontWeight.bold,
                           fontSize: 12),
                     ),
-                  ),
-                  Text(
-                    show.rating.percentage.toString() + "% liked",
-                    style: TextStyle(
-                        color: Colors.white54,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Text(
-                      show.numSeasons.toString() + " Seasons",
-                      style: TextStyle(
-                          color: Colors.white54,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12),
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text(
+                        show.numSeasons.toString() + " Seasons",
+                        style: TextStyle(
+                            color: Colors.white54,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Text(
-                      show.status.toString(),
-                      style: TextStyle(
-                          color: Colors.white54,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12),
-                    ),
-                  )
-                ],
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text(
+                        show.status.toString(),
+                        style: TextStyle(
+                            color: Colors.white54,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12),
+                      ),
+                    )
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -178,21 +185,40 @@ class _ShowDetailsScreenState extends State<ShowDetailsScreen>
                           )
                         ],
                       ),
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Icon(
-                            Icons.thumb_up,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          Text(
-                            "Rate",
-                            style: TextStyle(
-                                color: Colors.white70, fontSize: 10),
-                          )
-                        ],
+                      FlatButton(
+                        onPressed: () {
+                          setState(() {
+                            if (isRated) {
+                              PrefsHelper.removeMoveFromRatedList(
+                                  widget.show.imdbId);
+                              isRated = false;
+                            } else {
+                              PrefsHelper.addMovieToRatedList(
+                                  widget.show.imdbId);
+                              isRated = true;
+                            }
+                          });
+                        },
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(
+                              Icons.thumb_up,
+                              color: isRated ? Colors.red : Colors.white,
+                              size: 30,
+                            ),
+                            Text(
+                              "Rate",
+                              style: TextStyle(
+                                  color: isRated
+                                      ? Colors.red
+                                      : Colors.white70,
+                                  fontSize: 10),
+                            )
+                          ],
+                        ),
                       ),
                       Column(
                         mainAxisSize: MainAxisSize.max,

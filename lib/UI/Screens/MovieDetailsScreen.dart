@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:popflix/CORE/Helpers/PrefsHelper.dart';
 import 'package:popflix/CORE/Helpers/Strings.dart';
 import 'package:popflix/CORE/Helpers/Utils.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart';
@@ -24,6 +25,14 @@ class MovieDetailsScreen extends StatefulWidget {
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen>
     with AutomaticKeepAliveClientMixin<MovieDetailsScreen> {
+  bool isRated = false;
+
+  @override
+  void initState() {
+    isRated = PrefsHelper.isMovieRatedByRobot(widget.movie.imdbId);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -67,7 +76,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                           MaterialPageRoute(builder: (context) {
                             return TorrentStreamerView(
                                 item: widget.movie.torrents.en["720p"].url);
-                      }));
+                          }));
                     },
                     icon: Icon(
                       Icons.play_circle_outline,
@@ -79,10 +88,15 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                 Positioned(
                   left: 20,
                   top: 40,
-                  child: Icon(
-                    Icons.arrow_back,
-                    size: 25,
-                    color: Colors.white,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(
+                      Icons.arrow_back,
+                      size: 25,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 Positioned(
@@ -99,39 +113,42 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                 ),
               ],
             ),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Text(
-                    widget.movie.year.toString(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Text(
+                      widget.movie.year.toString(),
+                      style: TextStyle(
+                          color: Colors.white54,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12),
+                    ),
+                  ),
+                  Text(
+                    widget.movie.certification
+                        .toString()
+                        .split(".")
+                        .last,
                     style: TextStyle(
                         color: Colors.white54,
                         fontWeight: FontWeight.bold,
                         fontSize: 12),
                   ),
-                ),
-                Text(
-                  widget.movie.certification
-                      .toString()
-                      .split(".")
-                      .last,
-                  style: TextStyle(
-                      color: Colors.white54,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Text(
-                    Utils.durationToString(int.parse(widget.movie.runtime)),
-                    style: TextStyle(
-                        color: Colors.white54,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12),
-                  ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Text(
+                      Utils.durationToString(int.parse(widget.movie.runtime)),
+                      style: TextStyle(
+                          color: Colors.white54,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12),
+                    ),
+                  )
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(12.0),
@@ -167,20 +184,38 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                         )
                       ],
                     ),
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Icon(
-                          Icons.thumb_up,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        Text(
-                          "Rate",
-                          style: TextStyle(color: Colors.white70, fontSize: 10),
-                        )
-                      ],
+                    FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          if (isRated) {
+                            PrefsHelper.removeMoveFromRatedList(
+                                widget.movie.imdbId);
+                            isRated = false;
+                          } else {
+                            PrefsHelper.addMovieToRatedList(
+                                widget.movie.imdbId);
+                            isRated = true;
+                          }
+                        });
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Icon(
+                            Icons.thumb_up,
+                            color: isRated ? Colors.red : Colors.white,
+                            size: 30,
+                          ),
+                          Text(
+                            "Rate",
+                            style:
+                            TextStyle(
+                                color: isRated ? Colors.red : Colors.white70,
+                                fontSize: 10),
+                          )
+                        ],
+                      ),
                     ),
                     Column(
                       mainAxisSize: MainAxisSize.max,

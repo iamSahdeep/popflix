@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popflix/CORE/Helpers/Prefs.dart';
+import 'package:popflix/CORE/Helpers/Strings.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetAnimesRM.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetShowsRM.dart';
@@ -45,8 +46,7 @@ class _MovieItemCardState extends State<MovieItemCard> {
         child: Stack(
           children: <Widget>[
             CachedNetworkImage(
-              imageUrl: widget.item.images.banner ??
-                  "https://png.pngtree.com/png-clipart/20190515/original/pngtree-sunrise-in-space-png-image_3591477.jpg",
+              imageUrl: widget.item.images.banner ?? Strings.tempUrl,
               fit: BoxFit.fitHeight,
               placeholder: (context, url) =>
                   ShimmerBox(

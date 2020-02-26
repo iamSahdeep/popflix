@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart';
+import 'package:popflix/UI/Screens/MovieDetailsScreen.dart';
+import 'package:popflix/UI/Screens/WatchScreen.dart';
 import 'package:popflix/UI/Shared/ShimmerEffectBox.dart';
 
 class SingleFirstPosterFeaturedItem extends StatefulWidget {
@@ -93,23 +95,33 @@ class _SingleFirstPosterFeaturedItemState
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Icon(
-                          Icons.add,
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "Add",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        )
-                      ],
+                    FlatButton(
+                      onPressed: () {},
+                      child: Column(
+                        children: <Widget>[
+                          Icon(
+                            Icons.add,
+                            size: 25,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "Add",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
                     ),
                     MaterialButton(
-                      onPressed: null,
-                      disabledColor: Colors.white,
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              return TorrentStreamerView(
+                                  item: widget.item.torrents.en["720p"].url);
+                            }));
+                      },
+                      color: Colors.white,
                       child: Row(
                         children: <Widget>[
                           Icon(
@@ -126,19 +138,28 @@ class _SingleFirstPosterFeaturedItemState
                         ],
                       ),
                     ),
-                    Column(
-                      children: <Widget>[
-                        Icon(
-                          Icons.info_outline,
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "Info",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        )
-                      ],
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              return MovieDetailsScreen(movie: widget.item);
+                            }));
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          Icon(
+                            Icons.info_outline,
+                            size: 25,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "Info",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),

@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Prefs {
   static SharedPreferences prefs;
   static const NAMEKEY = "user_name";
+  static const RATEDMOVIES = "ratedMoviesByROBOT";
   static const FIRSTRUN = "firstrunbruh";
   static const CONTINUEWATCHINGMoviesLISTKEY = "ContinueWatchingMoviesList";
   static const MYWATCHLISTMovies = "mywatchlistMovies";
@@ -80,4 +81,13 @@ class Prefs {
     data.add(Id);
     prefs.setStringList(COMPLETEWATCHEDMOVIES, data);
   }
+
+  static List<String> getRatedMovies() {
+    return prefs.getStringList(RATEDMOVIES) ?? [];
+  }
+
+  static List<String> addToRatedMovies(List<String> data) {
+    prefs.setStringList(RATEDMOVIES, data);
+  }
+
 }
