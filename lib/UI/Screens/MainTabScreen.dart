@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
@@ -30,7 +32,7 @@ class _MainScreenTabState extends State<MainScreenTab> {
         child: hsModel.isDataFetched()
             ? Column(
                 children: <Widget>[
-                  SingleFirstPosterFeaturedItem(item: hsModel.allMovies[0]),
+                  SingleFirstPosterFeaturedItem(item: hsModel.randomItemForFirstPoster),
                   BingeWorthTVShows(),
                   PopularMovies(),
                   AnimesWorthWatch(),

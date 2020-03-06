@@ -27,6 +27,13 @@ class _MovieItemCardState extends State<MovieItemCard> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
+      onLongPress: (){
+        Scaffold.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.black,
+          duration: Duration(seconds: 1),
+          content: Text(widget.item.title??"Error Occurred"),
+        ));
+      },
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return widget.item is Movie
@@ -54,9 +61,21 @@ class _MovieItemCardState extends State<MovieItemCard> {
                     height: size.width / 3.5,
                   ),
               errorWidget: (context, url, error) =>
-                  Icon(
-                    Icons.error,
-                    color: Colors.white,
+                  Container(
+                    height: size.height / 5,
+                    width: size.width / 3.5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Icon(
+                          Icons.error,
+                          color: Colors.white,
+                        ),
+                        Text("Couldn't Load Poster",style:  TextStyle(color: Colors.white,fontSize: 13),textAlign: TextAlign.center,)
+                      ],
+                    ),
                   ),
             ),
             widget.item is Anime
@@ -64,7 +83,7 @@ class _MovieItemCardState extends State<MovieItemCard> {
                     alignment: Alignment.bottomCenter,
                     child: Container(
                       alignment: Alignment.bottomCenter,
-                      color: Colors.black87,
+                      color: Colors.black,
                       height: 20,
                       width: size.width / 3.5,
                       child: Text(

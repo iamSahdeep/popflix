@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
+import 'package:popflix/CORE/Helpers/PrefsHelper.dart';
 import 'package:popflix/CORE/Helpers/Utils.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
+import 'package:popflix/UI/Screens/MovieDetailsScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -18,10 +20,12 @@ class TrailerView extends StatefulWidget {
 class _TrailerViewState extends State<TrailerView> {
   bool ismute = true;
   var temp;
+  bool isInMyList;
 
   @override
   void initState() {
     temp = Provider.of<DataFetcherPM>(context, listen: false).getRandomItem();
+
     super.initState();
   }
 
@@ -36,6 +40,8 @@ class _TrailerViewState extends State<TrailerView> {
       item = widget.itemt;
       id = Utils.convertUrlToId(item.trailer);
     }
+
+    isInMyList = PrefsHelper.isMovieInMyList(temp.imdbId);
 
     YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: id,
@@ -119,7 +125,12 @@ class _TrailerViewState extends State<TrailerView> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     RaisedButton(
-                      onPressed: null,
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return MovieDetailsScreen(movie: item);
+
+                        }));
+                      },
                       disabledColor: Colors.white,
                       child: Row(
                         children: <Widget>[
@@ -135,17 +146,33 @@ class _TrailerViewState extends State<TrailerView> {
                       ),
                     ),
                     RaisedButton(
-                      onPressed: null,
+                      onPressed: () {
+                        setState(() {
+                          if (isInMyList) {
+                            PrefsHelper.removeMoveFromMyWatchList(
+                                item.imdbId);
+                            isInMyList = false;
+                          } else {
+                            PrefsHelper.addMovieToMyWatchList(
+                                item.imdbId);
+                            isInMyList = true;
+                          }
+                        });
+                      },
                       disabledColor: Colors.grey,
+                      color: Colors.white,
                       child: Row(
                         children: <Widget>[
                           Icon(
-                            Icons.add,
-                            color: Colors.white,
+                            isInMyList ? Icons.check : Icons.add,
+                            color: isInMyList ? Colors.red : Colors.black,
+                            size: 20,
                           ),
                           Text(
                             "My List",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                                color: isInMyList ? Colors.red : Colors.black,
+                                fontSize: 15),
                           )
                         ],
                       ),

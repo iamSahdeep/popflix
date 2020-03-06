@@ -14,6 +14,8 @@ class DataFetcherPM extends ChangeNotifier {
   List<Anime> allAnimes = [];
   int animesPagingPage = 1;
 
+  Movie randomItemForFirstPoster;
+
   List<Movie> newMovies = [];
   List<Show> newShows = [];
   List<Anime> newAnimes = [];
@@ -68,8 +70,7 @@ class DataFetcherPM extends ChangeNotifier {
       allAnimes.addAll(animeFromJson(response.body.toString()));
       allAnimes.forEach((anime) {
         anime.images.banner =
-        "https://media.kitsu.io/anime/poster_images/${anime.id
-            .toString()}/original.jpg";
+            "https://media.kitsu.io/anime/poster_images/${anime.id.toString()}/original.jpg";
       });
       notifyListeners();
     });
@@ -92,7 +93,7 @@ class DataFetcherPM extends ChangeNotifier {
   }
 
   dynamic getRandomItem() {
-    return allMovies[Random().nextInt(10)];
+    return allMovies[Random().nextInt(allMovies.length-1)];
   }
 
   List<Movie> getMoviesWithSameGenres(Movie movie) {
@@ -144,6 +145,8 @@ class DataFetcherPM extends ChangeNotifier {
   void getNewMovies() {
     Repository.fetchNewMovies().then((response) {
       newMovies.addAll(movieFromJson(response.body.toString()));
+      randomItemForFirstPoster =
+          newMovies[Random().nextInt(newMovies.length - 1)];
       notifyListeners();
     });
   }
@@ -153,8 +156,7 @@ class DataFetcherPM extends ChangeNotifier {
       newAnimes.addAll(animeFromJson(response.body.toString()));
       newAnimes.forEach((anime) {
         anime.images.banner =
-        "https://media.kitsu.io/anime/poster_images/${anime.id
-            .toString()}/original.jpg";
+            "https://media.kitsu.io/anime/poster_images/${anime.id.toString()}/original.jpg";
       });
       notifyListeners();
     });
