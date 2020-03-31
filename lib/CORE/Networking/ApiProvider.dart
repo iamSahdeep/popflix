@@ -50,4 +50,23 @@ class ApiProvider {
         "/1" +
         "?sort=year&order=-1");
   }
+
+  Future<http.Response> getSearchedMovies(String string) async {
+    return await http.get(Urls.BaseUrl +
+        Urls.Movies +
+        "/1?sort=title&order=1&keywords=$string");
+  }
+
+  Future<http.Response> getSearchedShows(String string) async {
+    return await http.get(Urls.BaseUrl +
+        Urls.Shows +
+        "/1?sort=title&order=1&keywords=$string");
+  }
+
+  Future<http.Response> getSearchedAnimes(String string) async {
+    return await http.get(Urls.BaseUrl +
+        Urls.Animes +
+        "/1?sort=title&order=1&keywords=$string");
+  }
+
 }

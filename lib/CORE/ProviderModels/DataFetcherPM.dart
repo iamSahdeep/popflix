@@ -168,4 +168,8 @@ class DataFetcherPM extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  List<dynamic> getMyList() {
+
+  }
 }

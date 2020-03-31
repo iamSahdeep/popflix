@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popflix/CORE/ProviderModels/DataFetcherPM.dart';
@@ -52,7 +50,8 @@ class _MainScreenTabState extends State<MainScreenTab> {
                   ),
                   NewReleaseListOf(
                     name: "animes",
-                  )
+                  ),
+                  //MyList()
                 ],
               )
             : ShimmerBox(

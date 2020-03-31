@@ -46,7 +46,7 @@ class _TorrentStreamerViewState extends State<TorrentStreamerView> {
               title: new Text('Are You Sure?'),
               content: new Text(
                   'Playing video while it is still downloading is experimental ' +
-                      'and only works on limited set of apps.'),
+                      'and only works and Tested upon MXPlayer.'),
               actions: <Widget>[
                 new FlatButton(
                   child: new Text("Cancel"),

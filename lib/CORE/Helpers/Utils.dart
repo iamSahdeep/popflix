@@ -11,6 +11,6 @@ class Utils {
   }
 
   static int toKBPS(double bps) {
-    return (bps / (8 * 1024)).floor();
+    return (bps / (1024)).floor();
   }
 }

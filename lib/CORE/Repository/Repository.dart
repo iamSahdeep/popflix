@@ -40,5 +40,17 @@ class Repository {
     return await apiProvider.getNewAnimes();
   }
 
+  static Future<Response> fetchSearchedMovies(String data) async {
+    return await apiProvider.getSearchedMovies(data);
+  }
+
+  static Future<Response> fetchSearchedShows(String data) async {
+    return await apiProvider.getSearchedShows(data);
+  }
+
+  static Future<Response> fetchSearchedAnimes(String data) async {
+    return await apiProvider.getSearchedAnimes(data);
+  }
+
 
 }

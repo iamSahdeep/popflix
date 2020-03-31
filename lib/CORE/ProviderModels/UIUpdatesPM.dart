@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:popflix/CORE/Models/ApiRM/GetAnimesRM.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetMoviesRM.dart';
 import 'package:popflix/CORE/Models/ApiRM/GetShowsRM.dart';
+import 'package:popflix/CORE/Repository/Repository.dart';
 
 class UIUpdatePM extends ChangeNotifier {
   List<Movie> allMovies;
@@ -9,34 +11,33 @@ class UIUpdatePM extends ChangeNotifier {
   List<dynamic> popularSearches = [];
   TextEditingController searchMoviesController = TextEditingController();
 
-
   String getSearchText() {
     return searchMoviesController.text.toString();
   }
 
-  List<dynamic> getMoviesShowsFromSearchText() {
+  Future<List<dynamic>> getMoviesShowsFromSearchText() async {
     String text = getSearchText().toLowerCase();
     List<dynamic> data = [];
-    data.addAll(allMovies.where((m) {
-      if (m.title.toLowerCase().contains(text)) {
-        return true;
-      } else {
-        return false;
-      }
-    }).toList());
-    data.addAll(allShows.where((m) {
-      if (m.title.toLowerCase().contains(text)) {
-        return true;
-      } else {
-        return false;
-      }
-    }).toList());
+
+    await Repository.fetchSearchedMovies(text).then((response) {
+      data.addAll(movieFromJson(response.body.toString()));
+      notifyListeners();
+    });
+    await Repository.fetchSearchedShows(text).then((response) {
+      data.addAll(showFromJson(response.body.toString()));
+      notifyListeners();
+    });
+    await Repository.fetchSearchedAnimes(text).then((response) {
+      data.addAll(animeFromJson(response.body.toString()));
+      notifyListeners();
+    });
+
     data.shuffle();
     return data;
   }
 
-  void searchMovies(String value) {
-    searchedItems = getMoviesShowsFromSearchText();
+  void searchMovies(String value) async {
+    searchedItems = await getMoviesShowsFromSearchText();
     notifyListeners();
   }
 
