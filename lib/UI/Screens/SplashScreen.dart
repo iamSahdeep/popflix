@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:popflix/CORE/Helpers/Prefs.dart';
 import 'package:popflix/UI/Screens/HomeScreen.dart';
 import 'package:popflix/UI/Screens/OnboardingScreen.dart';
 import 'package:shimmer/shimmer.dart';
@@ -22,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigationPage() {
-    if (Prefs.isFirstRun())
+    if (true)
       Navigator.of(context).pushReplacementNamed(FirstRunScreens.Route);
     else
       Navigator.of(context).pushReplacementNamed(HomeScreen.Route);

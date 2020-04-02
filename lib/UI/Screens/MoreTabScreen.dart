@@ -10,7 +10,10 @@ class _MoreTabScreenState extends State<MoreTabScreen> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("More",style: TextStyle(color: Colors.white),),
+      child: Text(
+        "Nothing to Set Here",
+        style: TextStyle(color: Colors.white, fontSize: 30),
+      ),
     );
   }
 }

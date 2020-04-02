@@ -93,7 +93,7 @@ class DataFetcherPM extends ChangeNotifier {
   }
 
   dynamic getRandomItem() {
-    return allMovies[Random().nextInt(allMovies.length-1)];
+    return allMovies[Random().nextInt(allMovies.length - 1)];
   }
 
   List<Movie> getMoviesWithSameGenres(Movie movie) {
@@ -169,7 +169,13 @@ class DataFetcherPM extends ChangeNotifier {
     });
   }
 
-  List<dynamic> getMyList() {
+  List<dynamic> getMyList() {}
 
+  List<dynamic> getNewContentAll() {
+    var data = [];
+    data.addAll(newMovies.getRange(0, 9));
+    data.addAll(newShows.getRange(0, 9));
+    data.shuffle();
+    return data;
   }
 }
