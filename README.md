@@ -1,6 +1,6 @@
 # Popflix - [Netflix + Popcorntime]
 
-A netflix clone made on Flutter using API provided by [Popcorntime](https://github.com/popcorn-official). State managed using Provider.
+A netflix clone made on Flutter using API provided by [Popcorntime](https://github.com/popcorn-official). State managed using Provider amd will be changing UI soon.
 
 NOTE : Its kind of Torrent client, currently using [flutter_torrent_streamer](https://pub.dev/packages/flutter_torrent_streamer) plugin to play Torrent magnet link. This plugin is based on [TorrentStream](https://github.com/TorrentStream/TorrentStream-Android). 
 
@@ -10,6 +10,8 @@ Docs for PopcornTime APIs : https://popcorntime.api-docs.io/api/welcome/introduc
 
 ## APK
 Please download latest apk from Github Releases : https://github.com/iamSahdeep/popflix/releases
+
+Previews in GIFs : [Preview 1](https://github.com/iamSahdeep/popflix/blob/master/screenshots/p2.gif), [Preview 2](https://github.com/iamSahdeep/popflix/blob/master/screenshots/p3.gif), [Preview 3](https://github.com/iamSahdeep/popflix/blob/master/screenshots/p2.gif)
 
 ## ScreenShots
 
@@ -39,6 +41,7 @@ Features included but not limited to :
   - Search from the ocean of data from search tab.
   - Popular Shows, movies and Animes right on Main Screen.
   - Random Trailer just like original Netflix in MainScreen.
+  - RunTime No Internet Screen
   
 Soon will be adding more features help me to create them. PR's of any kind is welcome :)
 
