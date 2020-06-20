@@ -8,6 +8,9 @@ Works only on Android for now. It Still have lots of silly known issues, help me
 
 Docs for PopcornTime APIs : https://popcorntime.api-docs.io/api/welcome/introduction (Base URL is not the same now)
 
+## APK
+Please download latest apk from Github Releases : https://github.com/iamSahdeep/popflix/releases
+
 # ScreenShots
 
 <p align="center">
