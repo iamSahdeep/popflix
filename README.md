@@ -11,7 +11,7 @@ Docs for PopcornTime APIs : https://popcorntime.api-docs.io/api/welcome/introduc
 ## APK
 Please download latest apk from Github Releases : https://github.com/iamSahdeep/popflix/releases
 
-# ScreenShots
+## ScreenShots
 
 <p align="center">
 <img src="screenshots/1.jpg" width="220" height="440"> <img
@@ -41,8 +41,11 @@ Features included but not limited to :
   - Random Trailer just like original Netflix in MainScreen.
   
 Soon will be adding more features help me to create them. PR's of any kind is welcome :)
+
+## Credits
+I have used alot of plugins to make it work and credits goes to them. Please find all the plugins used in [pubsec.yaml](https://github.com/iamSahdeep/popflix/blob/master/pubspec.yaml)
   
-# License
+## License
 ```
 MIT License
 
